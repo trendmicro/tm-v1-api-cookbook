@@ -137,7 +137,7 @@ def fetch_new_workbench_alerts(v1, start, end):
     return alerts
 
 
-def create_message_query(message_entity, indicators):
+def create_message_query(entity, indicators):
     query = f"recipient:{entity['entityValue']}"
     for indicator in indicators:
         if (indicator['id'] in entity['relatedIndicators']
@@ -203,7 +203,9 @@ def main(start, end, days, v1_token, v1_url):
                         msg = ('A message quarantined.'
                                f"Subject = {mail['mail_message_subject']}"
                                ' Please check it.')
-                        v1.quarantine_message(**mail)
+                        v1.quarantine_message(mail['mail_message_id'],
+                                        mail['mailbox'],
+                                        mail['mail_message_delivery_time'])
                         v1.add_workbench_notes(wb_id, msg)
                         quarantined_messages.append(
                             mail['mail_message_subject'])
