@@ -142,7 +142,7 @@ def create_message_query(entity, indicators):
     for indicator in indicators:
         if (indicator['id'] in entity['relatedIndicators']
                 and indicator['objectType'] == 'url'):
-            query += (f" AND url:{indicator['objectValue']}")
+            query += (f' AND url:"{indicator["objectValue"]}"')
     return query
 
 
