@@ -48,7 +48,7 @@ class TmV1Client:
         raise RuntimeError(f'Request unsuccessful (PUT {path}):'
                            f' {r.status_code} {r.text}')
 
-    def get_siem(self, start, end, offset=None, size=None):
+    def get_workbench_histories(self, start, end, offset=None, size=None):
         if not check_datetime_aware(start):
             start = start.astimezone()
         if not check_datetime_aware(end):
@@ -58,17 +58,12 @@ class TmV1Client:
         start = start.isoformat(timespec='milliseconds').replace('+00:00', 'Z')
         end = end.isoformat(timespec='milliseconds').replace('+00:00', 'Z')
         # API returns data in the range of [offset, offset+limit)
-        return self.get('/v2.0/siem/events', params=dict([
-            ('startDateTime', start), ('endDateTime', end)
-        ]
+        return self.get('/v2.0/xdr/workbench/workbenchHistories',
+            params=dict([('startTime', start), ('endTime', end),
+                ('sortBy', '-createdTime')]
             + ([('offset', offset)] if offset is not None else [])
             + ([('limit', size)] if size is not None else [])
         ))['data']['workbenchRecords']
-
-    def get_workbench(self, workbench_id):
-        return self.get(
-            f'/v2.0/xdr/workbench/workbenches/{workbench_id}'
-        )['data']
 
     def update_workbench(self, workbench_id, status):
         return self.put(
@@ -85,7 +80,7 @@ def fetch_workbench_alerts(v1, start, end):
     size = 100
     alerts = []
     while True:
-        gotten = v1.get_siem(start, end, offset, size)
+        gotten = v1.get_workbench_histories(start, end, offset, size)
         if not gotten:
             break
         print(f'Workbench alerts ({offset} {offset+size}): {len(gotten)}')
@@ -114,13 +109,9 @@ def main(start, end, days, v1_token, v1_url):
         records_list = []
         for record in wb_records:
             wb_id = record['workbenchId']
-            records_list.append(v1.get_workbench(wb_id))
+            records_list.append(record)
             if record['investigationStatus'] == 0:
                 v1.update_workbench(wb_id, TmV1Client.WB_STATUS_IN_PROGRESS)
-            print('\rTarget Workbench alerts with details (and updated status,'
-                  f' if applicable) ({wb_id}): {len(records_list)}',
-                  end=('' if (len(records_list)) < len(wb_records) else None))
-        print('')
         print('Details of target Workbench alerts:')
         print(json.dumps(records_list, indent=2))
     else:

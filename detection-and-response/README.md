@@ -3,8 +3,7 @@ This task identifies the highlighted object in a Workbench alert and then takes 
 ![flowchart](../.resources/take_a_response_action_on_the_highlighted_object_in_a_workbench_alert.png)  
 
 ## Related APIs
-- [Get alert history](https://automation.trendmicro.com/xdr/api-v2#tag/Alerts/paths/~1v2.0~1xdr~1workbench~1workbenches~1history/post)
-- [Get alert details](https://automation.trendmicro.com/xdr/api-v2#tag/Details/paths/~1v2.0~1xdr~1workbench~1workbenches~1{workbenchId}/get)
+- [Get alert history with details](https://automation.trendmicro.com/xdr/api-v2#tag/Alerts/paths/~1v2.0~1xdr~1workbench~1workbenchHistories/get)
 - [Edit alert status](https://automation.trendmicro.com/xdr/api-v2#tag/Alerts/paths/~1v2.0~1xdr~1workbench~1workbenches~1{workbenchId}/put)
 - [Query information for multiple endpoints](https://automation.trendmicro.com/xdr/api-v2#tag/Search/paths/~1v2.0~1xdr~1eiqs~1query~1batch~1endpointInfo/post)
 - [Isolate endpoint](https://automation.trendmicro.com/xdr/api-v2#tag/Endpoint/paths/~1v2.0~1xdr~1response~1isolate/post)

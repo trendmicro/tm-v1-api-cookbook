@@ -47,7 +47,6 @@
 The following sample code writes the number of retrieved Workbench alerts, Observed Attack Technique events, and detections to `stdout`.
 ```text
 Get workbench alerts (0 100): <alert_count>
-Get workbench details <alert_detail_count>
 Get OAT data(0 200): <oat_count>
 Get detection data(<start> <end>): <detection_count>
 ```
@@ -61,4 +60,4 @@ The sample code also indexes the data in Elasticsearch. You can perform the foll
     - tmv1\_detection
 - Check the following data fields:
     - All indices: The time field is "es\_basetime".
-    - "workbench" index: A new field called "impactScope.entityString" exists. This is renamed from "impactScope.entityValue".
+    - "workbench" index: A new field called "detail.impactScope.entityString" exists. This is renamed from "detail.impactScope.entityValue".

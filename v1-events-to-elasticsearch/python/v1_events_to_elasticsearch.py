@@ -62,7 +62,7 @@ class TmV1Client:
         raise RuntimeError(f'Request unsuccessful (POST {path}):'
                            f' {r.status_code} {r.text}')
 
-    def get_siem(self, start, end, offset=None, size=None):
+    def get_workbench_histories(self, start, end, offset=None, size=None):
         if not check_datetime_aware(start):
             start = start.astimezone()
         if not check_datetime_aware(end):
@@ -72,17 +72,12 @@ class TmV1Client:
         start = start.isoformat(timespec='milliseconds').replace('+00:00', 'Z')
         end = end.isoformat(timespec='milliseconds').replace('+00:00', 'Z')
         # API returns data in the range of [offset, offset+limit)
-        return self.get('/v2.0/siem/events', params=dict([
-            ('startDateTime', start), ('endDateTime', end)
-        ]
+        return self.get('/v2.0/xdr/workbench/workbenchHistories',
+            params=dict([('startTime', start), ('endTime', end),
+                ('sortBy', '-createdTime')]
             + ([('offset', offset)] if offset is not None else [])
             + ([('limit', size)] if size is not None else [])
         ))['data']['workbenchRecords']
-
-    def get_workbench(self, workbench_id):
-        return self.get(
-            f'/v2.0/xdr/workbench/workbenches/{workbench_id}'
-        )['data']
 
     def get_oat(self, start, end, size=None, nextBatchToken=None):
         if size is None:
@@ -119,26 +114,13 @@ def fetch_workbench_alerts(v1, start, end):
     size = 100
     alerts = []
     while True:
-        gotten = v1.get_siem(start, end, offset, size)
+        gotten = v1.get_workbench_histories(start, end, offset, size)
         if not gotten:
             break
         print(f'Workbench alerts ({offset} {offset+size}): {len(gotten)}')
         alerts.extend(gotten)
         offset = len(alerts)
     return alerts
-
-
-def fetch_workbench_details(v1, alerts):
-    """
-    This function do the loop to get the workbench detail every alert.
-    """
-    details = []
-    count = len(alerts)
-    for i, alert in enumerate(alerts):
-        details.append(v1.get_workbench(alert['workbenchId']))
-        print(f'\rWorkbench alert details {i+1}/{count}',
-              end=('' if (i + 1) < count else None))
-    return details
 
 
 def fetch_observed_attack_techniques(v1, start, end):
@@ -197,11 +179,11 @@ def correct_data(docs):
        This function names the same field for timestamp, 'es_basetime'.
     """
     for d in docs['workbench']:
-        for entity in d['impactScope']:
+        for entity in d['detail']['impactScope']:
             if isinstance(entity['entityValue'], str):
                 entity['entityString'] = entity['entityValue']
                 entity['entityValue'] = {}
-        d['es_basetime'] = d['workbenchCompleteTimestamp']
+        d['es_basetime'] = d['detail']['workbenchCompleteTimestamp']
     for d in docs['observed_techniques']:
         d['es_basetime'] = d['detectionTime']
     if 'detections' in docs:
@@ -225,8 +207,7 @@ def pull_v1_data_to_es(v1, es, start, end, index_prefix, include_detections):
     if not es.ping():
         raise RuntimeError('Elasticsearch server unavailable')
     docs = {}
-    alerts = fetch_workbench_alerts(v1, start, end)
-    docs['workbench'] = fetch_workbench_details(v1, alerts)
+    docs['workbench'] = fetch_workbench_alerts(v1, start, end)
     docs['observed_techniques'] = fetch_observed_attack_techniques(
         v1, start, end)
     if include_detections:

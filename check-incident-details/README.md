@@ -3,8 +3,7 @@ This task retrieves data about incident-related Workbench alerts and then modifi
 ![flowchart](../.resources/modify_alert_status_after_checking_alert_details.png)  
 
 ## Related APIs
-- [List alerts](https://automation.trendmicro.com/xdr/api-v2#tag/Alerts/paths/~1v2.0~1siem~1events/get)
-- [Get alert details](https://automation.trendmicro.com/xdr/api-v2#tag/Details/paths/~1v2.0~1xdr~1workbench~1workbenches~1{workbenchId}/get)
+- [Get alert history with details](https://automation.trendmicro.com/xdr/api-v2#tag/Alerts/paths/~1v2.0~1xdr~1workbench~1workbenchHistories/get)
 - [Edit alert status](https://automation.trendmicro.com/xdr/api-v2#tag/Alerts/paths/~1v2.0~1xdr~1workbench~1workbenches~1{workbenchId}/put)
 
 ## Supported API versions

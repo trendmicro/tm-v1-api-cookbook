@@ -45,8 +45,6 @@ Target Workbench alerts:
     // Workbench alert ID list
 ]
 
-Get details and update status as needed (<workbench_id>): <alert_detail_count>
-
 Details for target Workbench alerts:
 [
   {

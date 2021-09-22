@@ -58,7 +58,7 @@ class TmV1Client:
         raise RuntimeError(f'Request unsuccessful (PUT {path}):'
                            f' {r.status_code} {r.text}')
 
-    def list_workbench(self, start, end, status_list=None,
+    def get_workbench_histories(self, start, end, status_list=None,
                        offset=None, size=None):
         if not check_datetime_aware(start):
             start = start.astimezone()
@@ -69,19 +69,14 @@ class TmV1Client:
         start = start.isoformat(timespec='milliseconds').replace('+00:00', 'Z')
         end = end.isoformat(timespec='milliseconds').replace('+00:00', 'Z')
         # API returns data in the range of [offset, offset+limit)
-        return self.post('/v2.0/xdr/workbench/workbenches/history', json=dict([
-            ('startTime', start), ('endTime', end), ('sortBy', '-createdTime')
-        ]
+        return self.get('/v2.0/xdr/workbench/workbenchHistories', 
+            params=dict([('startTime', start), ('endTime', end),
+                ('sortBy', '-createdTime')]
             + ([('investigationStatus', status_list)]
                 if status_list is not None else [])
             + ([('offset', offset)] if offset is not None else [])
             + ([('limit', size)] if size is not None else [])
         ))['data']['workbenchRecords']
-
-    def get_workbench(self, workbench_id):
-        return self.get(
-            f'/v2.0/xdr/workbench/workbenches/{workbench_id}'
-        )['data']
 
     def update_workbench(self, workbench_id, status):
         return self.put(
@@ -127,7 +122,7 @@ def fetch_new_workbench_alerts(v1, start, end):
     size = 100
     alerts = []
     while True:
-        gotten = v1.list_workbench(
+        gotten = v1.get_workbench_histories(
             start, end, [TmV1Client.WB_STATUS_NEW], offset, size)
         if not gotten:
             break
@@ -171,8 +166,7 @@ def main(start, end, days, v1_token, v1_url):
     for record in wb_records:
         wb_id = record['workbenchId']
         v1.update_workbench(wb_id, TmV1Client.WB_STATUS_IN_PROGRESS)
-        workbench = v1.get_workbench(wb_id)
-        impact_scope = workbench['impactScope']
+        impact_scope = record['detail']['impactScope']
         for entity in impact_scope:
             entity_type = entity['entityType']
             if entity_type == 'host':
@@ -195,7 +189,7 @@ def main(start, end, days, v1_token, v1_url):
                            f'{os.linesep}Related acounts = {accounts}')
                     v1.add_workbench_notes(wb_id, msg)
             elif entity_type == 'emailAddress':
-                query = create_message_query(entity, workbench['indicators'])
+                query = create_message_query(entity, record['detail']['indicators'])
                 mail_logs = v1.search_message_activities(
                     start, end, query)['data']['logs']
                 if mail_logs:
