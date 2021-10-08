@@ -58,12 +58,13 @@ class TmV1Client:
         start = start.isoformat(timespec='milliseconds').replace('+00:00', 'Z')
         end = end.isoformat(timespec='milliseconds').replace('+00:00', 'Z')
         # API returns data in the range of [offset, offset+limit)
-        return self.get('/v2.0/xdr/workbench/workbenchHistories',
+        return self.get(
+            '/v2.0/xdr/workbench/workbenchHistories',
             params=dict([('startTime', start), ('endTime', end),
-                ('sortBy', '-createdTime')]
-            + ([('offset', offset)] if offset is not None else [])
-            + ([('limit', size)] if size is not None else [])
-        ))['data']['workbenchRecords']
+                        ('sortBy', '-createdTime')]
+                        + ([('offset', offset)] if offset is not None else [])
+                        + ([('limit', size)] if size is not None else [])
+                        ))['data']['workbenchRecords']
 
     def update_workbench(self, workbench_id, status):
         return self.put(

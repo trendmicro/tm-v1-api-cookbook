@@ -72,12 +72,13 @@ class TmV1Client:
         start = start.isoformat(timespec='milliseconds').replace('+00:00', 'Z')
         end = end.isoformat(timespec='milliseconds').replace('+00:00', 'Z')
         # API returns data in the range of [offset, offset+limit)
-        return self.get('/v2.0/xdr/workbench/workbenchHistories',
+        return self.get(
+            '/v2.0/xdr/workbench/workbenchHistories',
             params=dict([('startTime', start), ('endTime', end),
-                ('sortBy', '-createdTime')]
-            + ([('offset', offset)] if offset is not None else [])
-            + ([('limit', size)] if size is not None else [])
-        ))['data']['workbenchRecords']
+                        ('sortBy', '-createdTime')]
+                        + ([('offset', offset)] if offset is not None else [])
+                        + ([('limit', size)] if size is not None else [])
+                        ))['data']['workbenchRecords']
 
     def get_oat(self, start, end, size=None, nextBatchToken=None):
         if size is None:
@@ -177,12 +178,21 @@ def correct_data(docs):
 
     2. The three kinds of data have different names for timestamp.
        This function names the same field for timestamp, 'es_basetime'.
+
+    3. Both workbench and detections have the 'severity' field with different
+       type; workbench is string and detections is integer.
+       Because Elasticsearch cannot define the union of both string and
+       integer, this function name the string field to another one,
+       'severityString'.
     """
     for d in docs['workbench']:
         for entity in d['detail']['impactScope']:
             if isinstance(entity['entityValue'], str):
                 entity['entityString'] = entity['entityValue']
                 entity['entityValue'] = {}
+        if 'severity' in d:
+            d['severityString'] = d['severity']
+            del d['severity']
         d['es_basetime'] = d['detail']['workbenchCompleteTimestamp']
     for d in docs['observed_techniques']:
         d['es_basetime'] = d['detectionTime']

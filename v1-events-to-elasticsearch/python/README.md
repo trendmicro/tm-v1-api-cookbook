@@ -61,3 +61,4 @@ The sample code also indexes the data in Elasticsearch. You can perform the foll
 - Check the following data fields:
     - All indices: The time field is "es\_basetime".
     - "workbench" index: A new field called "detail.impactScope.entityString" exists. This is renamed from "detail.impactScope.entityValue".
+    - "workbench" index: A new field called "severity" exists. This is renamed from "severityString".
