@@ -171,10 +171,12 @@ def correct_data(docs):
     """
     This function correct VisionOne data for Elasticsearch
 
-    1. The workbench detail has ['inpactScope'][N]['entityValue'] has two kinds
-       of types; one is string and the other is object.
+    1. The workbench detail has ['inpactScope'][N]['entityValue'] and
+       ['indicators'][N]['objectValue'] have two kinds of types; one is string
+       and the other is object.
        Because Elasticsearch cannot define the union of both string and object,
-       this function names the string field to another one, 'entityString'.
+       this function names these string fields 'entityValue' and 'objectValue'
+       to 'entityString' and 'objectString', respectively.
 
     2. The three kinds of data have different names for timestamp.
        This function names the same field for timestamp, 'es_basetime'.
@@ -190,6 +192,10 @@ def correct_data(docs):
             if isinstance(entity['entityValue'], str):
                 entity['entityString'] = entity['entityValue']
                 entity['entityValue'] = {}
+        for entity in d['detail']['indicators']:
+            if isinstance(entity['objectValue'], str):
+                entity['objectString'] = entity['objectValue']
+                entity['objectValue'] = {}
         if 'severity' in d:
             d['severityString'] = d['severity']
             del d['severity']
