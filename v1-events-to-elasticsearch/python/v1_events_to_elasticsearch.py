@@ -175,8 +175,8 @@ def correct_data(docs):
        ['indicators'][N]['objectValue'] have two kinds of types; one is string
        and the other is object.
        Because Elasticsearch cannot define the union of both string and object,
-       this function names these string fields 'entityValue' and 'objectValue'
-       to 'entityString' and 'objectString', respectively.
+       this function renames the 'entityValue' and 'objectValue' fields as the
+       same as the value of 'entityType' and 'objectType' fields, respectively.
 
     2. The three kinds of data have different names for timestamp.
        This function names the same field for timestamp, 'es_basetime'.
@@ -186,22 +186,33 @@ def correct_data(docs):
        Because Elasticsearch cannot define the union of both string and
        integer, this function name the string field to another one,
        'severityString'.
+
+    4. The observed techniques have the
+       ['filters'][N]['highligthtedObjects'][M]['value'] with different types
+       specified by ['filters'][N]['highligthedObject'][M]['type'] field;
+       for example, when 'type' is 'port', 'value' is integer: when 'type' is
+       'text', 'value' is string.
+       Because Elasticsearch cannot define the union of all types, this
+       function renames the value field as the same as the value of 'type'
+       field; For example, 'type': 'host', 'host': xxx.
     """
     for d in docs['workbench']:
         for entity in d['detail']['impactScope']:
-            if isinstance(entity['entityValue'], str):
-                entity['entityString'] = entity['entityValue']
-                entity['entityValue'] = {}
+            entity[entity['entityType']] = entity['entityValue']
+            del entity['entityValue']
         for entity in d['detail']['indicators']:
-            if isinstance(entity['objectValue'], str):
-                entity['objectString'] = entity['objectValue']
-                entity['objectValue'] = {}
+            entity[entity['objectType']] = entity['objectValue']
+            del entity['objectValue']
         if 'severity' in d:
             d['severityString'] = d['severity']
             del d['severity']
         d['es_basetime'] = d['detail']['workbenchCompleteTimestamp']
     for d in docs['observed_techniques']:
         d['es_basetime'] = d['detectionTime']
+        for f in d.get('filters', []):
+            for obj in f.get('highlightedObjects', []):
+                obj[obj['type']] = obj['value']
+                del obj['value']
     if 'detections' in docs:
         for d in docs['detections']:
             d['es_basetime'] = d['eventTimeDT'].replace('+00:00', 'Z')

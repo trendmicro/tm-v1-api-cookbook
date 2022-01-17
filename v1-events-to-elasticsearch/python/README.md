@@ -60,6 +60,7 @@ The sample code also indexes the data in Elasticsearch. You can perform the foll
     - tmv1\_detection
 - Check the following data fields:
     - All indices: The time field is "es\_basetime".
-    - "workbench" index: A new field called "detail.impactScope.entityString" exists. This is renamed from "detail.impactScope.entityValue".
-    - "workbench" index: A new field called "detail.indicators.objectString" exists. This is renamed from "detail.indicators.objectValue".
+    - "workbench" index: A new field called "detail.impactScope.\<type name\>" exists. This is renamed from "detail.impactScope.entityValue" to the "\<type name\>" specified by the "entityType" field.
+    - "workbench" index: A new field called "detail.indicators.\<type name\>" exists. This is renamed from "detail.indicators.objectValue" to the "\<type name\>" specified by the "objectType" field.
     - "workbench" index: A new field called "severity" exists. This is renamed from "severityString".
+    - "observed techniques" index: A new field called "filters.highlightedObjects.\<type name\>" exists. This is renamed from "filters.highlightedObjects.value" to the "\<type name\>" specified by the "type" field.
