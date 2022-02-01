@@ -92,13 +92,16 @@ def fetch_iocs_from_taxii(url, user, password, version):
         raise RuntimeError(f'Unsupported TAXII server version: {version}')
 
     objects = []
-    for collection in server.default.collections:
-        if not collection.can_read:
-            continue
-        for envelope in as_pages(collection.get_objects, per_request=50):
-            objects.extend(envelope['objects'])
-            print('\rSTIX objects retrieved from TAXII server:'
-                  f' {len(objects)}', end=(''))
+    try:
+        for collection in server.default.collections:
+            if not collection.can_read:
+                continue
+            for envelope in as_pages(collection.get_objects, per_request=50):
+                objects.extend(envelope['objects'])
+                print('\rSTIX objects retrieved from TAXII server:'
+                      f' {len(objects)}', end=(''))
+    except:
+        pass
     print('')
     return extract_iocs_from_stix_objects(objects)
 
