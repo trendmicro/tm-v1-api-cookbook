@@ -63,4 +63,4 @@ The sample code also indexes the data in Elasticsearch. You can perform the foll
     - "workbench" index: A new field called "detail.impactScope.\<type name\>" exists. This is renamed from "detail.impactScope.entityValue" to the "\<type name\>" specified by the "entityType" field.
     - "workbench" index: A new field called "detail.indicators.\<type name\>" exists. This is renamed from "detail.indicators.objectValue" to the "\<type name\>" specified by the "objectType" field.
     - "workbench" index: A new field called "severity" exists. This is renamed from "severityString".
-    - "observed techniques" index: A new field called "filters.highlightedObjects.\<type name\>" exists. This is renamed from "filters.highlightedObjects.value" to the "\<type name\>" specified by the "type" field.
+    - "observed techniques" index: A new field called "filters.highlightedObjects.\<type name\>" exists. This is renamed from "filters.highlightedObjects.value" to the "\<type name\>" specified by the "type" field; And, the value of a "text" field is stringized when it is not string.

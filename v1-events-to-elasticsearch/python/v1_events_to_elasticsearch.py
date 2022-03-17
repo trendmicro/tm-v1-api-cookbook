@@ -172,7 +172,7 @@ def correct_data(docs):
     This function correct VisionOne data for Elasticsearch
 
     1. The workbench detail has ['inpactScope'][N]['entityValue'] and
-       ['indicators'][N]['objectValue'] have two kinds of types; one is string
+       ['indicators'][N]['objectValue'] have two kinds of types; One is string
        and the other is object.
        Because Elasticsearch cannot define the union of both string and object,
        this function renames the 'entityValue' and 'objectValue' fields as the
@@ -182,7 +182,7 @@ def correct_data(docs):
        This function names the same field for timestamp, 'es_basetime'.
 
     3. Both workbench and detections have the 'severity' field with different
-       type; workbench is string and detections is integer.
+       type; Workbench is string and detections is integer.
        Because Elasticsearch cannot define the union of both string and
        integer, this function name the string field to another one,
        'severityString'.
@@ -190,11 +190,14 @@ def correct_data(docs):
     4. The observed techniques have the
        ['filters'][N]['highligthtedObjects'][M]['value'] with different types
        specified by ['filters'][N]['highligthedObject'][M]['type'] field;
-       for example, when 'type' is 'port', 'value' is integer: when 'type' is
+       For example, when 'type' is 'port', 'value' is integer: when 'type' is
        'text', 'value' is string.
        Because Elasticsearch cannot define the union of all types, this
        function renames the value field as the same as the value of 'type'
        field; For example, 'type': 'host', 'host': xxx.
+       In addition, some values, such as for the 'field' is 'ruleId', are not
+       string type even when 'type' is 'text'. So, these values are forced to
+       be stringized.
     """
     for d in docs['workbench']:
         for entity in d['detail']['impactScope']:
@@ -211,6 +214,9 @@ def correct_data(docs):
         d['es_basetime'] = d['detectionTime']
         for f in d.get('filters', []):
             for obj in f.get('highlightedObjects', []):
+                if (('text' == obj['type']) and
+                   (not isinstance(obj['value'], str))):
+                    obj['value'] = str(obj['value'])
                 obj[obj['type']] = obj['value']
                 del obj['value']
     if 'detections' in docs:
