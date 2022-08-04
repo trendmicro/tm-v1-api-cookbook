@@ -134,12 +134,14 @@ def fetch_new_workbench_alerts(v1, start, end):
 
 
 def create_message_query(entity, indicators):
-    query = f"recipient:{entity['entityValue']}"
+    queries = set()
+    recipient = entity['entityValue']
     for indicator in indicators:
         if (indicator['id'] in entity['relatedIndicators']
                 and indicator['objectType'] == 'url'):
-            query += (f' AND url:"{indicator["objectValue"]}"')
-    return query
+            url = indicator['objectValue']
+            queries.add(f'recipient:"{recipient}" AND url:"{url}"')
+    return queries
 
 
 def main(start, end, days, v1_token, v1_url):
@@ -164,6 +166,8 @@ def main(start, end, days, v1_token, v1_url):
 
     isolated_endpoints = []
     quarantined_messages = []
+    messages = set()
+    endpoints = set()
     for record in wb_records:
         wb_id = record['workbenchId']
         v1.update_workbench(wb_id, TmV1Client.WB_STATUS_IN_PROGRESS)
@@ -171,41 +175,61 @@ def main(start, end, days, v1_token, v1_url):
         for entity in impact_scope:
             entity_type = entity['entityType']
             if entity_type == 'host':
-                accounts = entity['relatedEntities']
                 computer_id = entity['entityValue']['guid']
+                if computer_id == "":
+                    continue
+                accounts = entity['relatedEntities']
                 endpoint_info = v1.query_endpoint_info(computer_id)
                 if not endpoint_info:
                     continue
-                if endpoint_info['productCode'] == 'sao':
-                    msg = (
-                        f"Endpoint {endpoint_info['ip']['value']} isolated. "
-                        f'Please check it.{os.linesep}'
-                        f'Related acounts = {accounts}')
-                    v1.isolate_endpoint(computer_id)
-                    v1.add_workbench_notes(wb_id, msg)
-                    isolated_endpoints.append(endpoint_info['ip']['value'])
+                if endpoint_info['productCode'] in ['sao', 'sds', 'xes']:
+                    if computer_id in endpoints:
+                        note = (f'Nothing has done with this endpoint '
+                                f"{endpoint_info['ip']['value']} "
+                                f'because it is already isolated.')
+                    else:
+                        endpoints.add(computer_id)
+                        note = (
+                            f"Endpoint {endpoint_info['ip']['value']} "
+                            f'isolated. Please check it.{os.linesep}'
+                            f'Related acounts = {accounts}')
+                        v1.isolate_endpoint(computer_id)
+                        isolated_endpoints.append(endpoint_info['ip']['value'])
                 else:
-                    msg = ('Nothing has done with this endpoint '
-                           f"{endpoint_info['ip']['value']}. Please check it."
-                           f'{os.linesep}Related acounts = {accounts}')
-                    v1.add_workbench_notes(wb_id, msg)
+                    note = ('Nothing has done with this endpoint '
+                            f"{endpoint_info['ip']['value']}. Please check it."
+                            f'{os.linesep}Related acounts = {accounts}')
+                v1.add_workbench_notes(wb_id, note)
             elif entity_type == 'emailAddress':
-                query = create_message_query(
+                queries = create_message_query(
                     entity, record['detail']['indicators'])
-                mail_logs = v1.search_message_activities(
-                    start, end, query)['data']['logs']
-                if mail_logs:
-                    for mail in mail_logs:
-                        msg = ('A message quarantined.'
-                               f"Subject = {mail['mail_message_subject']}"
-                               ' Please check it.')
-                        v1.quarantine_message(
-                            mail['mail_message_id'],
-                            mail['mailbox'],
-                            mail['mail_message_delivery_time'])
-                        v1.add_workbench_notes(wb_id, msg)
-                        quarantined_messages.append(
-                            mail['mail_message_subject'])
+                for query in queries:
+                    mail_logs = v1.search_message_activities(
+                        start, end, query)['data']['logs']
+                    if mail_logs:
+                        for mail in mail_logs:
+                            msg = (mail['mail_message_id'], mail['mailbox'])
+                            if (msg in messages):
+                                note = ('Nothing has done with this message '
+                                        'because it is already quarantined.'
+                                        'Subject = '
+                                        f"{mail['mail_message_subject']}")
+                            else:
+                                messages.add(msg)
+                                note = ('A message quarantined.'
+                                        'Subject = '
+                                        f"{mail['mail_message_subject']}"
+                                        ' Please check it.')
+                                v1.quarantine_message(
+                                    *msg,
+                                    mail['mail_message_delivery_time'])
+                                quarantined_messages.append(
+                                    mail['mail_message_subject'])
+                            v1.add_workbench_notes(wb_id, note)
+            else:
+                note = ('Nothing has done with this workbench.'
+                        'Please check it.')
+                v1.add_workbench_notes(wb_id, note)
             print('\rAffected entities that received response actions: '
                   f'{len(isolated_endpoints) + len(quarantined_messages)}',
                   end='')
