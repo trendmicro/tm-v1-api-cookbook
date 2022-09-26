@@ -11,9 +11,6 @@ This task identifies the highlighted object in a Workbench alert and then takes 
 - [Quarantine email message](https://automation.trendmicro.com/xdr/api-v2#tag/Email/paths/~1v2.0~1xdr~1response~1quarantineMessage/post)
 - [Add alert note](https://automation.trendmicro.com/xdr/api-v2#tag/Notes/paths/~1v2.0~1xdr~1workbench~1workbenches~1{workbenchId}~1notes/post)
 
-## Supported API versions
-- 2.0
-
 ## Required products
 - Trend Micro Apex One / Trend Micro Apex One (Mac)
 - Cloud App Security

@@ -5,9 +5,6 @@ This task extracts IoCs from STIX objects and then searches these IoCs in endpoi
 ## Related APIs
 - [Search for data and list all results](https://automation.trendmicro.com/xdr/api-v2#tag/Search/paths/~1v2.0~1xdr~1search~1data/post)
 
-## Supported API versions
-- 2.0
-
 ## Required products
 - At least one of the following: Deep Security, Trend Micro Cloud One - Workload Security, Trend Micro Apex One, Trend Micro Apex One (Mac), XDR Endpoint Sensor
 
