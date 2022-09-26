@@ -1,4 +1,4 @@
-# Cookbook: "Send Workbench alerts and other detection data to Elasticsearch"
+# Cookbook: "Send Workbench alerts, audit logs, and other detection data to Elasticsearch"
 
 ## System Requirements
 
@@ -37,18 +37,20 @@
     $ pipenv shell
     ```
 2. Run a sample script with parameters.  
-    The following script sends data (Workbench alerts, Observed Attack Technique events, and other detections) from the last five days to Elasticsearch.
+    The following script sends data (Workbench alerts, Observed Attack Technique events, audit logs, and other detections) from the last five days to Elasticsearch.
     ```text
-    (python) $ python v1_events_to_elasticsearch.py -d 5 -D
+    (python) $ python v1_events_to_elasticsearch.py -d 5 -D -a
     ```
 
 ## Expected Results
 
-The following sample code writes the number of retrieved Workbench alerts, Observed Attack Technique events, and detections to `stdout`.
+The following sample code writes the number of retrieved Workbench alerts, Observed Attack Technique events, audit logs, and detections to `stdout`.
+
 ```text
-Get workbench alerts (0 100): <alert_count>
-Get OAT data(0 200): <oat_count>
-Get detection data(<start> <end>): <detection_count>
+Retrieved workbench alerts: <alert_count>
+Retrieved Observed Attack Techniques events: <oat_count>
+Retrieved detections: <detection_count>
+Retrieved audit logs: <audit_log_count>
 ```
 
 The sample code also indexes the data in Elasticsearch. You can perform the following actions.
@@ -58,9 +60,11 @@ The sample code also indexes the data in Elasticsearch. You can perform the foll
     - tmv1\_workbench
     - tmv1\_observed\_techniques
     - tmv1\_detection
+    - tmv1\_audit\_logs
 - Check the following data fields:
-    - All indices: The time field is "es\_basetime".
+    - All indices: The time field is "esBaseDateTime".
     - "workbench" index: A new field called "detail.impactScope.\<type name\>" exists. This is renamed from "detail.impactScope.entityValue" to the "\<type name\>" specified by the "entityType" field.
     - "workbench" index: A new field called "detail.indicators.\<type name\>" exists. This is renamed from "detail.indicators.objectValue" to the "\<type name\>" specified by the "objectType" field.
-    - "workbench" index: A new field called "severity" exists. This is renamed from "severityString".
+    - "workbench" index: A new field called "severity" exists. This is renamed to "severityString".
     - "observed techniques" index: A new field called "filters.highlightedObjects.\<type name\>" exists. This is renamed from "filters.highlightedObjects.value" to the "\<type name\>" specified by the "type" field; And, the value of a "text" field is stringized when it is not string.
+    - "observed techniques" index: A new field called "detail.proto" as string exists. This is renamed to "detail.protoString".

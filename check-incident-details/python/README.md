@@ -38,7 +38,6 @@
 The following sample code retrieves Workbench alert details and writes the information to `stdout`.
 
 ```text
-Get workbench alerts (0 100): <alert_count>
 
 Target Workbench alerts:
 [

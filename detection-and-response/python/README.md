@@ -18,6 +18,8 @@
     ```python
     V1_TOKEN = os.environ.get('TMV1_TOKEN', '')
     V1_URL = os.environ.get('TMV1_URL', 'https://api.xdr.trendmicro.com')
+    V1_WAIT_TASK_INTERVAL = int(os.environ.get('TMV1_WAIT_TASK_INTERVAL', 10))
+    V1_WAIT_TASK_RETRY = int(os.environ.get('TMV1_WAIT_TASK_RETRY', 12))
     ```
     Alternatively, you can set these as environment variables or script command parameters.
 
@@ -38,22 +40,16 @@
 The following sample code writes information about new Workbench alerts and response actions taken on affected entities to `stdout`.
 
 ```text
-Get workbench alerts (0 100): <alert_count>
+Retrieved workbench alerts: <alert_count>
+Added suspicious objects: <added_suspicious_object_count>
+Tasks running: <running_tasks_count>; Waiting interval (seconds): <interval_seconds>; Number of intervals: <retry_count>.
+Isolated endpoints: <isolated_endpoint_count>
+Tasks running: <running_tasks_count>; Waiting interval (seconds): <interval_seconds>; Number of intervals: <retry_count>.
+Quarantined emails: <quarantined_email_count>
+Tasks running: <running_tasks_count>; Waiting interval (seconds): <interval_seconds>; Number of intervals: <retry_count>.
 
-Target workbench alerts:
-[
-    // New workbench alert ID list
-]
-
-Handle impacted entities: <entity_count>
-
-Isolated endpoints IP address:
-[
-    // Isolated IP address list
-]
-
-Quarantined message subject:
-[
-    // Quarantined message subject list
-]
+Alert ID: <alert_id>
+Object <suspicious_o-bject_type> "<suspicious_object_value>" added to Suspicious Object List successfully.
+Endpoint "<endpoint_name>" isolated successfully.
+Message for "<mail_address>" quarantined successfully.
 ```
