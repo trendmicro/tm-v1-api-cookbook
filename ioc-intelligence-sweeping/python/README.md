@@ -18,6 +18,7 @@
     ```python
     V1_TOKEN = os.environ.get('TMV1_TOKEN', '')
     V1_URL = os.environ.get('TMV1_URL', 'https://api.xdr.trendmicro.com')
+    V1_UA = os.environ.get('TMV1_UA', f'Trend Micro Vision One API Cookbook ({os.path.basename(__file__)})')
     V1_WAIT_TASK_INTERVAL = int(os.environ.get('TMV1_WAIT_TASK_INTERVAL', 10))
     V1_WAIT_TASK_RETRY = int(os.environ.get('TMV1_WAIT_TASK_RETRY', 12))
     ```

@@ -6,9 +6,17 @@ import argparse
 
 import requests
 
-# default settings
+# Setting variables
 V1_TOKEN = os.environ.get('TMV1_TOKEN', '')
+# Specify the correct domain name for your region in V1_URL
+#   ref: https://automation.trendmicro.com/xdr/Guides/Regional-Domains
 V1_URL = os.environ.get('TMV1_URL', 'https://api.xdr.trendmicro.com')
+# This value is used for User-Agent header in API requests. So you can
+# customize this value to describe your company name, integration tool name,
+# and so on as you like.
+#   default: "Trend Micro Vision One API Cookbook ({script_name})"
+V1_UA = os.environ.get('TMV1_UA', 'Trend Micro Vision One API Cookbook '
+                       f'({os.path.basename(__file__)})')
 V1_WAIT_TASK_INTERVAL = int(os.environ.get('TMV1_WAIT_TASK_INTERVAL', 10))
 V1_WAIT_TASK_RETRY = int(os.environ.get('TMV1_WAIT_TASK_RETRY', 12))
 V1_ANALYZE_INTERVAL = int(os.environ.get('TMV1_ANALYZE_INTERVAL', 300))
@@ -61,6 +69,7 @@ class TmV1Client:
             headers['Authorization'] = 'Bearer ' + self.token
         if 'files' not in kwargs:
             headers['Content-Type'] = 'application/json;charset=utf-8'
+        headers['User-Agent'] = V1_UA
         return headers
 
     def get(self, url_or_path, use_token=True, **kwargs):

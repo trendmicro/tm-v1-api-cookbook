@@ -19,6 +19,7 @@
     ```python
     V1_TOKEN = os.environ.get('TMV1_TOKEN', '')
     V1_URL = os.environ.get('TMV1_URL', 'https://api.xdr.trendmicro.com')
+    V1_UA = os.environ.get('TMV1_UA', f'Trend Micro Vision One API Cookbook ({os.path.basename(__file__)})')
     ES_URL = os.environ.get('TMV1_ELASTICSEARCH_URL', 'http://localhost:9200')
     ES_INDEX_PREFIX = os.environ.get('TMV1_ELASTICSEARCH_INDEX_PREFIX', 'tmv1_')
     ES_USER = os.environ.get('TMV1_ELASTICSEARCH_USER')
