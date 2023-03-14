@@ -198,11 +198,10 @@ if __name__ == '__main__':
               ' time range. The default value is 5.'))
     parser.add_argument(
         '-t', '--v1-token', default=V1_TOKEN,
-        help=('Authentication token of your Trend Micro Vision One'
-              ' user account'))
+        help='Authentication token of your Trend Vision One user account')
     parser.add_argument(
         '-r', '--v1-url', default=TmV1Client.base_url_default,
-        help=('URL of the Trend Micro Vision One server for your region.'
+        help=('URL of the Trend Vision One server for your region.'
               f' The default value is "{TmV1Client.base_url_default}"'))
     parser.add_argument(
         '-R', '--taxii-url', default=TAXII_URL,

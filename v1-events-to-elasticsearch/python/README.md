@@ -53,7 +53,7 @@ Get detection data(<start> <end>): <detection_count>
 
 The sample code also indexes the data in Elasticsearch. You can perform the following actions.
 
-- Verify that the Trend Micro Vision One indices exist (Management > Elasticsearch > Index Management).  
+- Verify that the Trend Vision One indices exist (Management > Elasticsearch > Index Management).  
     Note: You can replace the prefix "tmv1_" with another lowercase string.
     - tmv1\_workbench
     - tmv1\_observed\_techniques
