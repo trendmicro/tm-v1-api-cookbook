@@ -1,0 +1,25 @@
+sheet names:
+  High Impact Risk Events Threat Detection: HIREs Threat Detection
+  High Impact Risk Events Security Configuration: HIREs Security Configuration
+  High Impact Risk Events System Configuration: HIREs System Configuration
+  High Impact Risk Events Vulnerability Detection: HIREs Vulnerability Detection
+  High Impact Risk Events Anomaly Detection: HIREs Anomaly Detection
+  High Impact Risk Events Account Compromise: HIREs Account Compromise
+  High Impact Risk Events Cloud App Activity: HIREs Cloud App ACTs
+  High Impact Risk Events XDR Detection: HIREs XDR Detection
+  Vulnerability Assessment Coverage Rate: VA Coverage Rate
+  CVE Management Metrics Average Unpatched Days: CVE MM AVG. Unpatched Days
+  CVE Management Metrics Vulnerable Endpoint Rate: CVE MM Vulnerable Endpoint Rate
+  CVE Management Metrics Legacy OS Endpoint Count: CVE MM Legacy OS Endpoint Count
+  Exposure Status Cloud Asset Misconfiguration: ES Cloud Asset Misconfiguration
+  Exposure Status Unexpected Internet Facing Interface: ES Unexpected INET Facing IF
+  Exposure Status Insecure Host Connection: ES Insecure Host Connection
+  Exposure Status Domain Account Misconfiguration: ES Domain Acct. Misconfig
+  Security Configuration Status Endpoint Agent: SCS EP Agent
+  Security Configuration Status Endpoint Agent Version: SCS EP Agent Version
+  Security Configuration Status Endpoint Agent Feature Apex One Adoption Rate: SCS EP Agent A1 Adoption Rate
+  Security Configuration Status Endpoint Agent Feature Cloud One Adoption Rate: SCS EP Agent C1 Adoption Rate
+  Security Configuration Status Virtual Patching: SCS Virtual Patching
+  Security Configuration Status Email Sensor Exchange: SCS Email Sensor Exchange
+  Security Configuration Status Email Sensor Gmail: SCS Email Sensor Gmail
+  Security Configuration Status Cloud Apps: SCS Cloud Apps

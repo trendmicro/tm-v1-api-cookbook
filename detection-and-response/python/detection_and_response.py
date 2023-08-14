@@ -476,7 +476,7 @@ def get_added_suspicious_object_note(indicator, added_suspicous_objects):
         error = task.get('error', '')
         return (f'The status of {action} task is "{status}". '
                 f'Error code: {error}')
-    return (f'Object {arg[0]} "{arg[1]}" added to Suspicious Object List'
+    return (f'Object {arg[0]} "{arg[1]}" added to Suspicious Object List '
             'successfully.')
 
 
@@ -501,6 +501,7 @@ def get_isolated_endpoint_notes(entity, searched_endpoints,
             error = res.get('body', {}).get('error', '')
             r.append(f'Unable to start {action} task. '
                      f'Error code: {error}')
+            continue
         status = task['status']
         if 'running' == status:
             r.append(f'The status of the {action} task is "{status}". '
@@ -529,6 +530,7 @@ def get_quarantined_email_notes(entity, searched_emails, quarantined_emails):
             error = res.get('body', {}).get('error', '')
             r.append(f'Unable to start {action} task. '
                      f'Error code: {error}')
+            continue
         status = task['status']
         if 'running' == status:
             r.append(f'The status of the {action} task is "{status}". '
