@@ -138,12 +138,13 @@ def correct_data(docs):
     """
     This function correct VisionOne data for Elasticsearch
 
-    1. The workbench detail has ['impactScope'][N]['entityValue'] and
-       ['indicators'][N]['objectValue'] have two kinds of types; One is string
-       and the other is object.
+    1. The workbench items have ['impactScope'][N]['entityValue'] and
+       ['indicators'][N]['value'] have two kinds of types; One is string and
+       the other is object.
        Because Elasticsearch cannot define the union of both string and object,
        this function renames the 'entityValue' and 'objectValue' fields as the
-       same as the value of 'entityType' and 'objectType' fields, respectively.
+       same as the value of 'entityType' field and 'type' fields combined with
+       the type name of the value, respectively.
 
     2. The three kinds of data have different names for timestamp.
        This function names the same field for timestamp, 'esBaseDateTime'.
@@ -177,7 +178,8 @@ def correct_data(docs):
             entity[entity['entityType']] = entity['entityValue']
             del entity['entityValue']
         for entity in d['indicators']:
-            entity[entity['type']] = entity['value']
+            name = entity['type'] + '_' + type(entity['value']).__name__
+            entity[name] = entity['value']
             del entity['value']
         if 'severity' in d:
             d['severityString'] = d['severity']

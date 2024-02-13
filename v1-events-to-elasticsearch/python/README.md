@@ -64,8 +64,8 @@ The sample code also indexes the data in Elasticsearch. You can perform the foll
     - tmv1\_audit\_logs
 - Check the following data fields:
     - All indices: The time field is "esBaseDateTime".
-    - "workbench" index: A new field called "detail.impactScope.\<type name\>" exists. This is renamed from "detail.impactScope.entityValue" to the "\<type name\>" specified by the "entityType" field.
-    - "workbench" index: A new field called "detail.indicators.\<type name\>" exists. This is renamed from "detail.indicators.objectValue" to the "\<type name\>" specified by the "objectType" field.
+    - "workbench" index: A new field called "impactScope.\<type name\>" exists. This is renamed from "impactScope.entityValue" to the "\<type name\>" specified by the "entityType" field.
+    - "workbench" index: A new field called "indicators.\<type name\>" exists. This is renamed from "indicators.value" to the "\<type name\>" specified by the "type" field combined with the the type name of the value.
     - "workbench" index: A new field called "severity" exists. This is renamed to "severityString".
     - "observed techniques" index: A new field called "filters.highlightedObjects.\<type name\>" exists. This is renamed from "filters.highlightedObjects.value" to the "\<type name\>" specified by the "type" field; And, the value of a "text" field is stringized when it is not string.
     - "observed techniques" index: A new field called "detail.proto" as string exists. This is renamed to "detail.protoString".
