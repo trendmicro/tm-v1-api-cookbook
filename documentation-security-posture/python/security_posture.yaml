@@ -11,6 +11,7 @@ sheet names:
   CVE Management Metrics Average Unpatched Days: CVE MM AVG. Unpatched Days
   CVE Management Metrics Vulnerable Endpoint Rate: CVE MM Vulnerable Endpoint Rate
   CVE Management Metrics Legacy OS Endpoint Count: CVE MM Legacy OS Endpoint Count
+  CVE Management Metrics Mttp Days: CVE MM Mttp Days 
   Exposure Status Cloud Asset Misconfiguration: ES Cloud Asset Misconfiguration
   Exposure Status Unexpected Internet Facing Interface: ES Unexpected INET Facing IF
   Exposure Status Insecure Host Connection: ES Insecure Host Connection
