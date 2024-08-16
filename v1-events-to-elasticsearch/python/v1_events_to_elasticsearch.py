@@ -167,11 +167,10 @@ def correct_data(docs):
        string type even when 'type' is 'text'. So, these values are forced to
        be stringized.
 
-    5. The observed techniques have the ['detail']['proto'] that has two kinds
-       of types; One is string and the other is integer.
-       Because Elasticsearch cannot define the union of both string and
-       integer, this function names the string field to another one,
-       'protoString'.
+    5. The observed techniques have the ['detail'] that has several kinds
+       of objects with different properties by source.
+       Because Elasticsearch cannot define the union of them, this function
+       renames this field to the source name stored in ['source'].
     """
     for d in docs['workbench']:
         for entity in d['impactScope']['entities']:
@@ -194,10 +193,9 @@ def correct_data(docs):
                     obj['value'] = str(obj['value'])
                 obj[obj['type']] = obj['value']
                 del obj['value']
-        if ('detail' in d) and ('proto' in d['detail']):
-            if isinstance(d['detail']['proto'], str):
-                d['detail']['protoString'] = d['detail']['proto']
-                del d['detail']['proto']
+        if 'detail' in d:
+            d[d['source']] = d['detail']
+            del d['detail']
     if 'detections' in docs:
         for d in docs['detections']:
             d['esBaseDateTime'] = d['eventTimeDT'].replace('+00:00', 'Z')
@@ -215,6 +213,21 @@ def index_data_to_es(es, docs):
                 '_source': source
             }
     for name, data in docs.items():
+        if 'observed_techniques' in name:
+            if not es.indices.exists(index=name):
+                es.indices.create(index=name)
+            r = es.indices.get_settings(
+                index=name,
+                name='index.mapping.total_fields.limit',
+                include_defaults=True
+            )[name]
+            settings = r['defaults']
+            settings.update(r['settings'])
+            limit = int(settings['index']['mapping']['total_fields']['limit'])
+            if limit < 2000:
+                es.indices.put_settings(index=name, settings={
+                    "index.mapping.total_fields.limit": 2000
+                })
         elasticsearch.helpers.bulk(es, index_actions(name, data))
 
 

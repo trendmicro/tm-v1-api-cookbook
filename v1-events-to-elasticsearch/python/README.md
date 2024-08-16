@@ -57,15 +57,20 @@ Retrieved audit logs: <audit_log_count>
 The sample code also indexes the data in Elasticsearch. You can perform the following actions.
 
 - Verify that the Trend Vision One indices exist (Management > Elasticsearch > Index Management).  
-    Note: You can replace the prefix "tmv1_" with another lowercase string.
     - tmv1\_workbench
     - tmv1\_observed\_techniques
     - tmv1\_detection
     - tmv1\_audit\_logs
+
+    You can replace the prefix `tmv1_` with another lowercase string.
+
 - Check the following data fields:
     - All indices: The time field is "esBaseDateTime".
     - "workbench" index: A new field called "impactScope.\<type name\>" exists. This is renamed from "impactScope.entityValue" to the "\<type name\>" specified by the "entityType" field.
     - "workbench" index: A new field called "indicators.\<type name\>" exists. This is renamed from "indicators.value" to the "\<type name\>" specified by the "type" field combined with the the type name of the value.
     - "workbench" index: A new field called "severity" exists. This is renamed to "severityString".
-    - "observed techniques" index: A new field called "filters.highlightedObjects.\<type name\>" exists. This is renamed from "filters.highlightedObjects.value" to the "\<type name\>" specified by the "type" field; And, the value of a "text" field is stringized when it is not string.
-    - "observed techniques" index: A new field called "detail.proto" as string exists. This is renamed to "detail.protoString".
+    - "observed techniques" index: A new field called "filters.highlightedObjects.\<type name\>" exists. This is renamed from "filters.highlightedObjects.value" to the "\<type name\>" specified by the "type" field.
+ 
+      The value of a "text" field is converted to string when necessary.
+
+   - "observed techniques" index: A new field called "detail" exists. This is renamed to the "\<source name\>" specified by the "source" field.
