@@ -202,6 +202,11 @@ def correct_data(docs):
     if 'audit_logs' in docs:
         for d in docs['audit_logs']:
             d['esBaseDateTime'] = d['loggedDateTime']
+            if 'hasDetail' in d['details']:
+                if 'True' == d['details']['hasDetail']:
+                    d['details']['hasDetail'] = True
+                elif 'False' == d['details']['hasDetail']:
+                    d['details']['hasDetail'] = False
 
 
 def index_data_to_es(es, docs):
@@ -228,7 +233,12 @@ def index_data_to_es(es, docs):
                 es.indices.put_settings(index=name, settings={
                     "index.mapping.total_fields.limit": 2000
                 })
-        elasticsearch.helpers.bulk(es, index_actions(name, data))
+        try:
+            elasticsearch.helpers.bulk(es, index_actions(name, data))
+        except elasticsearch.helpers.BulkIndexError as e:
+            print(f'Bulk index error: {name}')
+            print(e.errors[0].get('index', {}).get('error', {}).get('reason'))
+            raise e
 
 
 def pull_v1_data_to_es(v1, es, start, end, index_prefix, include_detections,

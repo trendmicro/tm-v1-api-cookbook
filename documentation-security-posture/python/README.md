@@ -2,7 +2,7 @@
 
 ## System Requirements
 
-- Python 3.7 or later
+- Python 3.9 or later
 
 ## Environment Setup
 
@@ -63,6 +63,7 @@ The sample script generates an XLSX file (`security_posture.xlsx`) that includes
 - CVE Management Metrics Density
 - CVE Management Metrics Vulnerable Endpoint Rate
 - CVE Management Metrics Legacy OS Endpoint Count
+- CVE Management Metrics Mttp Days
 - Exposure Status Cloud Asset Misconfiguration
 - Exposure Status Unexpected Internet Facing Interface
 - Exposure Status Insecure Host Connection
@@ -71,11 +72,19 @@ The sample script generates an XLSX file (`security_posture.xlsx`) that includes
 - Security Configuration Status Endpoint Agent
 - Security Configuration Status Endpoint Agent Version
 - Security Configuration Status Endpoint Agent Feature Apex One Adoption Rate
+- Security Configuration Status Endpoint Agent Feature Apex One Saas Adoption Rate
+- Security Configuration Status Endpoint Agent Feature Apex One On Premises Adoption Rate
 - Security Configuration Status Endpoint Agent Feature Cloud One Adoption Rate
+- Security Configuration Status Endpoint Agent Feature Standard Protection Adoption Rate
+- Security Configuration Status Endpoint Agent Feature Deep Software Adoption Rate
+- Security Configuration Status Endpoint Agent Feature Workload Adoption Rate
+- Security Configuration Status Endpoint Agent Feature Server Workload Protection Adoption Rate
 - Security Configuration Status Virtual Patching
 - Security Configuration Status Email Sensor Exchange
 - Security Configuration Status Email Sensor Gmail
 - Security Configuration Status Cloud Apps
+
+
 
 Each security metric, except for general, is stored in a separate worksheet inside XLSX workbooks. Every worksheet contains a row with the `createdDateTime` field of the response.
 
@@ -123,6 +132,7 @@ worksheet names:
   CVE Management Metrics Average Unpatched Days: CVE MM AVG. Unpatched Days
   CVE Management Metrics Vulnerable Endpoint Rate: CVE MM Vulnerable Endpoint Rate
   CVE Management Metrics Legacy OS Endpoint Count: CVE MM Legacy OS Endpoint Count
+  CVE Management Metrics Mttp Days: CVE MM Mttp Days
   Exposure Status Cloud Asset Misconfiguration: ES Cloud Asset Misconfiguration
   Exposure Status Unexpected Internet Facing Interface: ES Unexpected INET Facing IF
   Exposure Status Insecure Host Connection: ES Insecure Host Connection
@@ -130,7 +140,13 @@ worksheet names:
   Security Configuration Status Endpoint Agent: SCS EP Agent
   Security Configuration Status Endpoint Agent Version: SCS EP Agent Version
   Security Configuration Status Endpoint Agent Feature Apex One Adoption Rate: SCS EP Agent A1 Adoption Rate
+  Security Configuration Status Endpoint Agent Feature Apex One Saas Adoption Rate: SCS EPA A1 Saas Adoption Rate
+  Security Configuration Status Endpoint Agent Feature Apex One On Premises Adoption Rate: SCS EPA A1 OnPre Adoption Rate
   Security Configuration Status Endpoint Agent Feature Cloud One Adoption Rate: SCS EP Agent C1 Adoption Rate
+  Security Configuration Status Endpoint Agent Feature Standard Protection Adoption Rate: SCS EP Agent SP Adoption Rate
+  Security Configuration Status Endpoint Agent Feature Deep Software Adoption Rate: SCS EP Agent DS Adoption Rate
+  Security Configuration Status Endpoint Agent Feature Workload Adoption Rate: SCS EPA Workload Adoption Rate
+  Security Configuration Status Endpoint Agent Feature Server Workload Protection Adoption Rate: SCS EP Agent SWP Adoption Rate
   Security Configuration Status Virtual Patching: SCS Virtual Patching
   Security Configuration Status Email Sensor Exchange: SCS Email Sensor Exchange
   Security Configuration Status Email Sensor Gmail: SCS Email Sensor Gmail

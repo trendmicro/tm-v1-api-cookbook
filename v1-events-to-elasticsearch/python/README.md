@@ -2,8 +2,8 @@
 
 ## System Requirements
 
-- Python 3.7 or later
-- Elasticsearch 7.2 or later
+- Python 3.9 or later
+- Elasticsearch 8.4.1 or later
 
 ## Environment Setup
 

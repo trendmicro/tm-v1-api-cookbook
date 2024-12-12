@@ -92,7 +92,7 @@ class TmV1Client:
                            f' {r.status_code} {r.text}')
 
     def get_security_posture(self):
-        return self.get('/beta/xdr/riskInsights/securityPosture')
+        return self.get('/v3.0/asrm/securityPosture')
 
 
 unit_suffixes = ['count', 'density', 'days', 'rate']
@@ -115,6 +115,7 @@ def iter_nested_dict(value, keys=[]):
     each dict to the dict-key with the value of its 1st key.
     After that, if all dicts in a list have only one value for the same key,
     this combine them to one dict.
+    When a list including dicts is empty, this skips to record it.
     """
     if isinstance(value, dict):
         units = set()
@@ -124,6 +125,10 @@ def iter_nested_dict(value, keys=[]):
             if keys and isinstance(keys[-1], int):
                 # When parent is list, replace index to value of the 1st key
                 keys[-1] = value[k]
+                del value[k]
+                continue
+            if isinstance(value[k], list) and not value[k]:
+                # When empty list, skip to record it
                 del value[k]
                 continue
             i = iter_nested_dict(value[k], keys + [k])
@@ -145,7 +150,8 @@ def iter_nested_dict(value, keys=[]):
                     yield (keys, value)
                     is_value_iterated = True
                 else:
-                    yield (keys + [k], {k: value[k]})
+                    if k in value:
+                        yield (keys + [k], {k: value[k]})
     elif isinstance(value, list):
         a = list(itertools.chain.from_iterable(
             iter_nested_dict(v, keys + [i]) for i, v in enumerate(value)
@@ -191,7 +197,7 @@ def change_sheet_names(dataframes, sheet_names):
             dataframes[new_sheet_name] = dataframes.pop(sheet_name)
             sheet_name = new_sheet_name
         if 32 <= len(sheet_name):
-            raise RuntimeError(f"Worksheet name '{sheet_name}' must  exceeds "
+            raise RuntimeError(f"Worksheet name '{sheet_name}' must exceeds "
                                'the 31 character maximum.')
 
 
@@ -319,7 +325,7 @@ def make_chart_slide(p, title):
 
 def add_shape_chart_line(p, slide, dataframe):
     chart_data = pptx.chart.data.ChartData()
-    for column_name, items in dataframe.iteritems():
+    for column_name, items in dataframe.items():
         if datetime_column_name == column_name:
             # make category as date axis
             chart_data.categories = [item.to_pydatetime() for item in items]

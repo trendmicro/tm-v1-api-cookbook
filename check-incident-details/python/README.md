@@ -2,7 +2,7 @@
 
 ## System Requirements
 
-- Python 3.7 or later
+- Python 3.9 or later
 
 ## Environment Setup
 
