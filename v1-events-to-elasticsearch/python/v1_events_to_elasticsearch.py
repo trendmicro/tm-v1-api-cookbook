@@ -1,4 +1,5 @@
 import datetime
+import json
 import argparse
 import os
 import urllib.parse
@@ -171,6 +172,13 @@ def correct_data(docs):
        of objects with different properties by source.
        Because Elasticsearch cannot define the union of them, this function
        renames this field to the source name stored in ['source'].
+
+    6. The audit logs have the ['details'] including some values that are
+       represented as either JSON or its stringized value.
+       Because Elasticsearch cannot define the union of them, this function
+       parses the stringized value to corresponding Python-typed values; For
+       example, 'details.hasDetail' and
+       'details.policyList.endpointSensorDetectionAndResponseSetting'.
     """
     for d in docs['workbench']:
         for entity in d['impactScope']['entities']:
@@ -207,6 +215,13 @@ def correct_data(docs):
                     d['details']['hasDetail'] = True
                 elif 'False' == d['details']['hasDetail']:
                     d['details']['hasDetail'] = False
+            if 'policyList' in d['details']:
+                policyList = d['details']['policyList']
+                k = 'endpointSensorDetectionAndResponseSetting'
+                if k in policyList:
+                    v = policyList[k]
+                    if str == type(v):
+                        policyList[k] = json.loads(v)
 
 
 def index_data_to_es(es, docs):
