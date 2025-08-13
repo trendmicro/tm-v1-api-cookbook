@@ -1,9 +1,9 @@
 import datetime
 import itertools
 import argparse
-import json
 import os
-import sys
+import numbers
+import math
 
 import requests
 import pandas
@@ -303,6 +303,9 @@ def correct_dataframes(dataframes):
     1. The 'Risk Category Level' has only string values. To make a line chart,
        the value replaced from 'low', 'medium' and 'high' to 0, 1 and 2,
        respectively.
+
+    2. Some sheets have NaN values. To make line charts, the value is replaecd
+       to empty string.
     """
     dataframe = dataframes[level_sheet_name]
     for i, row in dataframe.iterrows():
@@ -310,6 +313,15 @@ def correct_dataframes(dataframes):
             if datetime_column_name == column:
                 continue
             dataframe.at[i, column] = level_values.index(row[column])
+
+    for dataframe in dataframes.values():
+        for i, row in dataframe.iterrows():
+            for column in dataframe.columns:
+                if datetime_column_name == column:
+                    continue
+                v = row[column]
+                if isinstance(v, numbers.Number) and math.isnan(v):
+                    dataframe.at[i, column] = ''
 
 
 def make_chart_slide(p, title):
