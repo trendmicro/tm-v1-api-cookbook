@@ -15,7 +15,7 @@ v --> e[End];
 ```
 
 ## Related APIs
-- [Get security posture data](https://automation.trendmicro.com/xdr/api-beta#tag/Security-Posture/paths/~1beta~1xdr~1riskInsights~1securityPosture/get)
+- [Get security posture data](https://portal.xdr.trendmicro.com/index.html#/admin/automation_center?goto=api&from=v3.0&tag=tag%2FSecurity-Posture%2Fpaths%2F~1v3.0~1asrm~1securityPosture%2Fget)
 
 ## Required products
 - At least one Trend Micro product that connects to Trend Vision One

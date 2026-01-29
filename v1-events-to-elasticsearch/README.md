@@ -1,10 +1,12 @@
 # Send Workbench alerts, audit logs, and other detection data to Elasticsearch
-This task retrieves Workbench alerts, Observed Attack Technique events, detections and audit logs to Elasticsearch.
+This task sends Workbench alerts, detections, and audit logs to Elasticsearch.
+
+Note: You can refer to the Datalake Pipeline API Cookbook when retrieving Observed Attack Techniques events.
+
 ```mermaid
 graph LR;
 s[Start] --> wb[Retrieve<br>Workbench alerts];
-wb --> oat[Retrieve<br>Observed Attack Techniques<br>events];
-oat --> opt{Do you need<br>other detection data?};
+wb --> opt{Do you need<br>other detection data?};
 opt -- Yes --> d[Retrieve file and web<br>detection data];
 d --> opt2{Do you need<br>audit logs?};
 opt -- No --> opt2;
@@ -16,10 +18,9 @@ ie --> e[End];
 ```
 
 ## Related APIs
-- [Get alerts list](https://automation.trendmicro.com/xdr/api-v3#tag/Workbench/paths/~1v3.0~1workbench~1alerts/get)
-- [Get Observed Attack Techniques events](https://automation.trendmicro.com/xdr/api-v3#tag/Observed-Attack-Techniques/paths/~1v3.0~1oat~1detections/get)
-- [Get detection data](https://automation.trendmicro.com/xdr/api-v3#tag/Search/paths/~1v3.0~1search~1detections/get)
-- [Get entries from audit logs](https://automation.trendmicro.com/xdr/api-v3#tag/Audit-Logs/paths/~1v3.0~1audit~1logs/get)
+- [Get alerts list](https://portal.xdr.trendmicro.com/index.html#/admin/automation_center?goto=api&from=v3.0&tag=tag%2FWorkbench%2Fpaths%2F~1v3.0~1workbench~1alerts%2Fget)
+- [Get detection data](https://portal.xdr.trendmicro.com/index.html#/admin/automation_center?goto=api&from=v3.0&tag=tag%2FSearch%2Fpaths%2F~1v3.0~1search~1detections%2Fget)
+- [Get entries from audit logs](https://portal.xdr.trendmicro.com/index.html#/admin/automation_center?goto=api&from=v3.0&tag=tag%2FAudit-Logs%2Fpaths%2F~1v3.0~1audit~1logs%2Fget)
 
 ## Required products
 - At least one Trend Micro product that connects to Trend Vision One

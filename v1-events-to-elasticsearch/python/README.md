@@ -38,27 +38,27 @@
     $ pipenv shell
     ```
 2. Run a sample script with parameters.  
-    The following script sends data (Workbench alerts, Observed Attack Technique events, audit logs, and other detections) from the last five days to Elasticsearch.
+    The following script sends data (Workbench alerts, audit logs, and other detections) from the last five days to Elasticsearch.
     ```text
     (python) $ python v1_events_to_elasticsearch.py -d 5 -D -a
     ```
 
 ## Expected Results
 
-The following sample code writes the number of retrieved Workbench alerts, Observed Attack Technique events, audit logs, and detections to `stdout`.
+The following sample code writes the number of retrieved Workbench alerts, audit logs, and detections to `stdout`.
 
 ```text
 Retrieved workbench alerts: <alert_count>
-Retrieved Observed Attack Techniques events: <oat_count>
 Retrieved detections: <detection_count>
 Retrieved audit logs: <audit_log_count>
 ```
+
+Note: You can refer to the Datalake Pipeline API Cookbook when retrieving Observed Attack Techniques events.
 
 The sample code also indexes the data in Elasticsearch. You can perform the following actions.
 
 - Verify that the Trend Vision One indices exist (Management > Elasticsearch > Index Management).  
     - tmv1\_workbench
-    - tmv1\_observed\_techniques
     - tmv1\_detection
     - tmv1\_audit\_logs
 
@@ -69,8 +69,3 @@ The sample code also indexes the data in Elasticsearch. You can perform the foll
     - "workbench" index: A new field called "impactScope.\<type name\>" exists. This is renamed from "impactScope.entityValue" to the "\<type name\>" specified by the "entityType" field.
     - "workbench" index: A new field called "indicators.\<type name\>" exists. This is renamed from "indicators.value" to the "\<type name\>" specified by the "type" field combined with the the type name of the value.
     - "workbench" index: A new field called "severity" exists. This is renamed to "severityString".
-    - "observed techniques" index: A new field called "filters.highlightedObjects.\<type name\>" exists. This is renamed from "filters.highlightedObjects.value" to the "\<type name\>" specified by the "type" field.
- 
-      The value of a "text" field is converted to string when necessary.
-
-   - "observed techniques" index: A new field called "detail" exists. This is renamed to the "\<source name\>" specified by the "source" field.

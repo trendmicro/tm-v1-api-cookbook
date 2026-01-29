@@ -13,7 +13,7 @@ import elasticsearch.helpers
 # Setting variables
 V1_TOKEN = os.environ.get('TMV1_TOKEN', '')
 # Specify the correct domain name for your region in V1_URL
-#   ref: https://automation.trendmicro.com/xdr/Guides/Regional-Domains
+#   default: https://api.xdr.trendmicro.com (US region)
 V1_URL = os.environ.get('TMV1_URL', 'https://api.xdr.trendmicro.com')
 # This value is used for User-Agent header in API requests. So you can
 # customize this value to describe your company name, integration tool name,
@@ -45,7 +45,6 @@ def get_datetime_param(d):
 
 class TmV1Client:
     base_url_default = V1_URL
-    oat_top = [50, 100, 200]
     search_top = [50, 100, 500, 1000, 5000]
     audit_logs_top = [50, 100, 200]
 
@@ -102,16 +101,6 @@ class TmV1Client:
             params['endDateTime'] = get_datetime_param(end)
         return self.get_items('/v3.0/workbench/alerts', params=params)
 
-    def get_oat(self, start=None, end=None, top=None):
-        params = {}
-        if start is not None:
-            params['detectedStartDateTime'] = get_datetime_param(start)
-        if end is not None:
-            params['detectedEndDateTime'] = get_datetime_param(end)
-        if top is not None:
-            params['top'] = top
-        return self.get_items('/v3.0/oat/detections', params=params)
-
     def get_detection(self, start=None, end=None, top=None):
         params = {}
         if start is not None:
@@ -156,24 +145,7 @@ def correct_data(docs):
        integer, this function name the string field to another one,
        'severityString'.
 
-    4. The observed techniques have the
-       ['filters'][N]['highligthtedObjects'][M]['value'] with different types
-       specified by ['filters'][N]['highligthedObject'][M]['type'] field;
-       For example, when 'type' is 'port', 'value' is integer: when 'type' is
-       'text', 'value' is string.
-       Because Elasticsearch cannot define the union of all types, this
-       function renames the value field as the same as the value of 'type'
-       field; For example, 'type': 'host', 'host': xxx.
-       In addition, some values, such as for the 'field' is 'ruleId', are not
-       string type even when 'type' is 'text'. So, these values are forced to
-       be stringized.
-
-    5. The observed techniques have the ['detail'] that has several kinds
-       of objects with different properties by source.
-       Because Elasticsearch cannot define the union of them, this function
-       renames this field to the source name stored in ['source'].
-
-    6. The audit logs have the ['details'] including some values that are
+    4. The audit logs have the ['details'] including some values that are
        represented as either JSON or its stringized value.
        Because Elasticsearch cannot define the union of them, this function
        parses the stringized value to corresponding Python-typed values; For
@@ -192,18 +164,6 @@ def correct_data(docs):
             d['severityString'] = d['severity']
             del d['severity']
         d['esBaseDateTime'] = d['createdDateTime']
-    for d in docs['observed_techniques']:
-        d['esBaseDateTime'] = d['detectedDateTime']
-        for f in d.get('filters', []):
-            for obj in f.get('highlightedObjects', []):
-                if (('text' == obj['type']) and
-                   (not isinstance(obj['value'], str))):
-                    obj['value'] = str(obj['value'])
-                obj[obj['type']] = obj['value']
-                del obj['value']
-        if 'detail' in d:
-            d[d['source']] = d['detail']
-            del d['detail']
     if 'detections' in docs:
         for d in docs['detections']:
             d['esBaseDateTime'] = d['eventTimeDT'].replace('+00:00', 'Z')
@@ -233,21 +193,6 @@ def index_data_to_es(es, docs):
                 '_source': source
             }
     for name, data in docs.items():
-        if 'observed_techniques' in name:
-            if not es.indices.exists(index=name):
-                es.indices.create(index=name)
-            r = es.indices.get_settings(
-                index=name,
-                name='index.mapping.total_fields.limit',
-                include_defaults=True
-            )[name]
-            settings = r['defaults']
-            settings.update(r['settings'])
-            limit = int(settings['index']['mapping']['total_fields']['limit'])
-            if limit < 2000:
-                es.indices.put_settings(index=name, settings={
-                    "index.mapping.total_fields.limit": 2000
-                })
         try:
             elasticsearch.helpers.bulk(es, index_actions(name, data))
         except elasticsearch.helpers.BulkIndexError as e:
@@ -263,10 +208,6 @@ def pull_v1_data_to_es(v1, es, start, end, index_prefix, include_detections,
     docs = {}
     docs['workbench'] = v1.get_workbench_alerts(start, end)
     print(f'Retrieved workbench alerts: {len(docs["workbench"])}')
-    docs['observed_techniques'] = v1.get_oat(start, end,
-                                             TmV1Client.oat_top[-1])
-    print('Retrieved Observed Attack Techniques events: '
-          f'{len(docs["observed_techniques"])}')
     if include_detections:
         docs['detections'] = v1.get_detection(start, end,
                                               TmV1Client.search_top[-1])

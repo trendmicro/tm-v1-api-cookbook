@@ -4,11 +4,11 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-requests = "*"
 pandas = "*"
 openpyxl = "*"
 python-pptx = "*"
 PyYAML = "*"
+requests = "*"
 
 [dev-packages]
 

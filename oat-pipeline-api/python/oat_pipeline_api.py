@@ -15,7 +15,7 @@ from urllib3.util import Retry
 # Standard environment variables
 V1_TOKEN = os.environ.get("TMV1_TOKEN", "")
 # Specify the correct domain name for your region in V1_URL
-#   ref: https://automation.trendmicro.com/xdr/Guides/Regional-Domains
+#   default: https://api.xdr.trendmicro.com (US region)
 V1_URL = os.environ.get("TMV1_URL", "https://api.xdr.trendmicro.com")
 # This value is used for User-Agent header in API requests
 V1_UA = os.environ.get(

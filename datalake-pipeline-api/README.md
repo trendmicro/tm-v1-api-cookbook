@@ -31,7 +31,7 @@ flowchart TD
 ```
 
 ## Related APIs
-- [Data Pipeline Management API](https://automation.trendmicro.com/xdr/api-v3/#tag/Datalake-Pipeline)
+- [Data Pipeline Management API](https://portal.xdr.trendmicro.com/index.html#/admin/automation_center?goto=api&from=v3.0&tag=tag%2FDatalake-Pipeline)
 
 ## Required products
 - At least one product connected to Trend Vision One
