@@ -18,7 +18,7 @@
     ```python
     V1_TOKEN = os.environ.get('TMV1_TOKEN', '')
     V1_URL = os.environ.get('TMV1_URL', 'https://api.xdr.trendmicro.com')
-    V1_UA = os.environ.get('TMV1_UA', f'Trend Vision One API Cookbook ({os.path.basename(__file__)})')
+    V1_UA = os.environ.get('TMV1_UA', f'TMV1 API Cookbook ({os.path.basename(__file__)})')
     V1_XLSX_FILENAME = os.environ.get('TMV1_XLSX_FILENAME', 'security_posture.xlsx')
     V1_PPTX_FILENAME = os.environ.get('TMV1_PPTX_FILENAME', 'security_posture.pptx')
     V1_YAML_FILENAME = os.environ.get('TMV1_YAML_FILENAME', 'security_posture.yaml')

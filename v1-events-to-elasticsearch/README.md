@@ -23,7 +23,7 @@ ie --> e[End];
 - [Get entries from audit logs](https://portal.xdr.trendmicro.com/index.html#/admin/automation_center?goto=api&from=v3.0&tag=tag%2FAudit-Logs%2Fpaths%2F~1v3.0~1audit~1logs%2Fget)
 
 ## Required products
-- At least one Trend Micro product that connects to Trend Vision One
+- At least one TrendAI™ product that connects to TrendAI Vision One™
 
 ## Sample code
 - [Python](python/)

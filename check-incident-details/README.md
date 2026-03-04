@@ -14,7 +14,7 @@ a4 --> e[End];
 - [Modify alert status](https://portal.xdr.trendmicro.com/index.html#/admin/automation_center?goto=api&from=v3.0&tag=tag%2FWorkbench%2Fpaths%2F~1v3.0~1workbench~1alerts~1%7Bid%7D%2Fpatch)
 
 ## Required products
-- At least one Trend Micro product that connects to Trend Vision One
+- At least one TrendAI™ product that connects to TrendAI Vision One™
 
 ## Sample code
 - [Python](python/)

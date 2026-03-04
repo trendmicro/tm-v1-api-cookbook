@@ -19,7 +19,7 @@
     ```python
     V1_TOKEN = os.environ.get('TMV1_TOKEN', '')
     V1_URL = os.environ.get('TMV1_URL', 'https://api.xdr.trendmicro.com')
-    V1_UA = os.environ.get('TMV1_UA', f'Trend Vision One API Cookbook ({os.path.basename(__file__)})')
+    V1_UA = os.environ.get('TMV1_UA', f'TMV1 API Cookbook ({os.path.basename(__file__)})')
     ES_URL = os.environ.get('TMV1_ELASTICSEARCH_URL', 'http://localhost:9200')
     ES_INDEX_PREFIX = os.environ.get('TMV1_ELASTICSEARCH_INDEX_PREFIX', 'tmv1_')
     ES_USER = os.environ.get('TMV1_ELASTICSEARCH_USER')
@@ -57,7 +57,7 @@ Note: You can refer to the Datalake Pipeline API Cookbook when retrieving Observ
 
 The sample code also indexes the data in Elasticsearch. You can perform the following actions.
 
-- Verify that the Trend Vision One indices exist (Management > Elasticsearch > Index Management).  
+- Verify that the TrendAI Vision One™ indices exist (Management > Elasticsearch > Index Management).  
     - tmv1\_workbench
     - tmv1\_detection
     - tmv1\_audit\_logs

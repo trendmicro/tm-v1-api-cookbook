@@ -19,7 +19,8 @@ V1_TOKEN = os.environ.get("TMV1_TOKEN", "")
 V1_URL = os.environ.get("TMV1_URL", "https://api.xdr.trendmicro.com")
 # This value is used for User-Agent header in API requests
 V1_UA = os.environ.get(
-    "TMV1_UA", f"Trend Vision One API Cookbook ({os.path.basename(__file__)})"
+    "TMV1_UA",
+    f"TMV1 API Cookbook ({os.path.basename(__file__)})"
 )
 
 

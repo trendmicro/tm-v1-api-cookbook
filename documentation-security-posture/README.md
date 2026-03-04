@@ -18,7 +18,7 @@ v --> e[End];
 - [Get security posture data](https://portal.xdr.trendmicro.com/index.html#/admin/automation_center?goto=api&from=v3.0&tag=tag%2FSecurity-Posture%2Fpaths%2F~1v3.0~1asrm~1securityPosture%2Fget)
 
 ## Required products
-- At least one Trend Micro product that connects to Trend Vision One
+- At least one TrendAI™ product that connects to TrendAI Vision One™
 
 ## Sample code
 - [Python](python/)

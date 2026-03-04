@@ -22,7 +22,7 @@ V1_URL = os.environ.get("TMV1_URL", "https://api.xdr.trendmicro.com")
 # This value is used for User-Agent header in API requests
 V1_UA = os.environ.get(
     "TMV1_UA",
-    f"Trend Vision One API Cookbook ({os.path.basename(__file__)})"
+    f"TMV1 API Cookbook ({os.path.basename(__file__)})"
 )
 
 
@@ -532,20 +532,20 @@ def main(args):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
-        description="Trend Vision One Data Pipeline Management Tool"
+        description="TrendAI Vision One™ Data Pipeline Management Tool"
     )
     parser.add_argument(
         "-t",
         "--v1-token",
         default=V1_TOKEN,
-        help="Authentication token of your Trend Vision One user account",
+        help="Authentication token of your TrendAI Vision One™ user account",
     )
     parser.add_argument(
         "-u",
         "--v1-url",
         default=V1_URL,
         help=(
-            "URL of the Trend Micro One server for your region."
+            "URL of the TrendAI Vision One™ server for your region."
             f' The default value is "{TmV1Client.base_url_default}"'
         ),
     )

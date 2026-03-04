@@ -22,7 +22,7 @@ pipenv shell
 ```python
 V1_TOKEN = os.environ.get('TMV1_TOKEN', '')
 V1_URL = os.environ.get('TMV1_URL', 'https://api.xdr.trendmicro.com')
-V1_UA = os.environ.get('TMV1_UA', f'Trend Vision One API Cookbook({os.path.basename(__file__)})')
+V1_UA = os.environ.get('TMV1_UA', f'TMV1 API Cookbook({os.path.basename(__file__)})')
 ```
 ## Sample Script
 1. The script provides a command-line interface for interacting with the Datalake Pipeline API.

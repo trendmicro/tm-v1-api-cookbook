@@ -19,8 +19,8 @@ V1_URL = os.environ.get('TMV1_URL', 'https://api.xdr.trendmicro.com')
 # This value is used for User-Agent header in API requests. So you can
 # customize this value to describe your company name, integration tool name,
 # and so on as you like.
-#   default: "Trend Vision One API Cookbook ({script_name})"
-V1_UA = os.environ.get('TMV1_UA', 'Trend Vision One API Cookbook '
+#   default: "TrendAI Vision One™ API Cookbook ({script_name})"
+V1_UA = os.environ.get('TMV1_UA', 'TMV1 API Cookbook '
                        f'({os.path.basename(__file__)})')
 V1_XLSX_FILENAME = os.environ.get('TMV1_XLSX_FILENAME',
                                   'security_posture.xlsx')
@@ -422,11 +422,11 @@ if __name__ == '__main__':
     )
     export_parser.add_argument(
         '-t', '--v1-token', default=V1_TOKEN,
-        help='Authentication token of your Trend Vision One user account.'
+        help='Authentication token of your TrendAI Vision One™ user account.'
     )
     export_parser.add_argument(
         '-u', '--v1-url', default=TmV1Client.base_url_default,
-        help=('URL of the Trend Vision One server for your region.'
+        help=('URL of the TrendAI Vision One™ server for your region.'
               f' The default value is "{TmV1Client.base_url_default}"')
     )
     report_parser = subparsers.add_parser(
