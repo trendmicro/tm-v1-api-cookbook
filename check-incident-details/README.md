@@ -10,11 +10,11 @@ a4 --> e[End];
 ```
 
 ## Related APIs
-- [Get alert history with details](https://automation.trendmicro.com/xdr/api-v2#tag/Alerts/paths/~1v2.0~1xdr~1workbench~1workbenchHistories/get)
-- [Edit alert status](https://automation.trendmicro.com/xdr/api-v2#tag/Alerts/paths/~1v2.0~1xdr~1workbench~1workbenches~1{workbenchId}/put)
+- [Get alert history with details](https://portal.xdr.trendmicro.com/index.html#/admin/automation_center?goto=api&from=v2.0&tag=tag%2FAlerts%2Fpaths%2F~1v2.0~1xdr~1workbench~1workbenchHistories%2Fget)
+- [Edit alert status](https://portal.xdr.trendmicro.com/index.html#/admin/automation_center?goto=api&from=v2.0&tag=tag%2FAlerts%2Fpaths%2F~1v2.0~1xdr~1workbench~1workbenches~1%7BworkbenchId%7D%2Fput)
 
 ## Required products
-- At least one Trend Micro product that connects to Trend Vision One
+- At least one TrendAI™ product that connects to TrendAI Vision One™
 
 ## Sample code
 - [Python](python/)

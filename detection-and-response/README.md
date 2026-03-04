@@ -19,13 +19,13 @@ cc1--No-->e;
 ```
 
 ## Related APIs
-- [Get alert history with details](https://automation.trendmicro.com/xdr/api-v2#tag/Alerts/paths/~1v2.0~1xdr~1workbench~1workbenchHistories/get)
-- [Edit alert status](https://automation.trendmicro.com/xdr/api-v2#tag/Alerts/paths/~1v2.0~1xdr~1workbench~1workbenches~1{workbenchId}/put)
-- [Query information for multiple endpoints](https://automation.trendmicro.com/xdr/api-v2#tag/Search/paths/~1v2.0~1xdr~1eiqs~1query~1batch~1endpointInfo/post)
-- [Isolate endpoint](https://automation.trendmicro.com/xdr/api-v2#tag/Endpoint/paths/~1v2.0~1xdr~1response~1isolate/post)
-- [Search for data and list all results](https://automation.trendmicro.com/xdr/api-v2#tag/Search/paths/~1v2.0~1xdr~1search~1data/post)
-- [Quarantine email message](https://automation.trendmicro.com/xdr/api-v2#tag/Email/paths/~1v2.0~1xdr~1response~1quarantineMessage/post)
-- [Add alert note](https://automation.trendmicro.com/xdr/api-v2#tag/Notes/paths/~1v2.0~1xdr~1workbench~1workbenches~1{workbenchId}~1notes/post)
+- [Get alert history with details](https://portal.xdr.trendmicro.com/index.html#/admin/automation_center?goto=api&from=v2.0&tag=tag%2FAlerts%2Fpaths%2F~1v2.0~1xdr~1workbench~1workbenchHistories%2Fget)
+- [Edit alert status](https://portal.xdr.trendmicro.com/index.html#/admin/automation_center?goto=api&from=v2.0&tag=tag%2FAlerts%2Fpaths%2F~1v2.0~1xdr~1workbench~1workbenches~1%7BworkbenchId%7D%2Fput)
+- [Query information for multiple endpoints](https://portal.xdr.trendmicro.com/index.html#/admin/automation_center?goto=api&from=v2.0&tag=tag%2FSearch%2Fpaths%2F~1v2.0~1xdr~1eiqs~1query~1batch~1endpointInfo%2Fpost)
+- [Isolate endpoint](https://portal.xdr.trendmicro.com/index.html#/admin/automation_center?goto=api&from=v2.0&tag=tag%2FEndpoint%2Fpaths%2F~1v2.0~1xdr~1response~1isolate%2Fpost)
+- [Search for data and list all results](https://portal.xdr.trendmicro.com/index.html#/admin/automation_center?goto=api&from=v2.0&tag=tag%2FSearch%2Fpaths%2F~1v2.0~1xdr~1search~1data%2Fpost)
+- [Quarantine email message](https://portal.xdr.trendmicro.com/index.html#/admin/automation_center?goto=api&from=v2.0&tag=tag%2FEmail%2Fpaths%2F~1v2.0~1xdr~1response~1quarantineMessage%2Fpost)
+- [Add alert note](https://portal.xdr.trendmicro.com/index.html#/admin/automation_center?goto=api&from=v2.0&tag=tag%2FNotes%2Fpaths%2F~1v2.0~1xdr~1workbench~1workbenches~1%7BworkbenchId%7D~1notes%2Fpost)
 
 ## Required products
 - At least one of the following: Deep Security, Trend Cloud One - Workload Security, Trend Micro Apex One, Trend Micro Apex One (Mac), XDR Endpoint Sensor

@@ -13,12 +13,12 @@ ie --> e[End];
 ```
 
 ## Related APIs
-- [Get alert history with details](https://automation.trendmicro.com/xdr/api-v2#tag/Alerts/paths/~1v2.0~1xdr~1workbench~1workbenchHistories/get)
-- [Search Observed Attack Techniques event list](https://automation.trendmicro.com/xdr/api-v2#tag/Observed-Attack-Techniques/paths/~1v2.0~1xdr~1oat~1detections/get)
-- [Search for data and list all results](https://automation.trendmicro.com/xdr/api-v2#tag/Search/paths/~1v2.0~1xdr~1search~1data/post)
+- [Get alert history with details](https://portal.xdr.trendmicro.com/index.html#/admin/automation_center?goto=api&from=v2.0&tag=tag%2FAlerts%2Fpaths%2F~1v2.0~1xdr~1workbench~1workbenchHistories%2Fget)
+- [Search Observed Attack Techniques event list](https://portal.xdr.trendmicro.com/index.html#/admin/automation_center?goto=api&from=v2.0&tag=tag%2FObserved-Attack-Techniques%2Fpaths%2F~1v2.0~1xdr~1oat~1detections%2Fget)
+- [Search for data and list all results](https://portal.xdr.trendmicro.com/index.html#/admin/automation_center?goto=api&from=v2.0&tag=tag%2FSearch%2Fpaths%2F~1v2.0~1xdr~1search~1data%2Fpost)
 
 ## Required products
-- At least one Trend Micro product that connects to Trend Vision One
+- At least one TrendAI™ product that connects to TrendAI Vision One™
 
 ## Sample code
 - [Python](python/)
